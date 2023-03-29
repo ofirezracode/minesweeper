@@ -153,6 +153,7 @@ function handleRightClick(elCell, i, j) {
 }
 
 function handleLoss() {
+  stopTimer()
   setValueAllMines('show')
   updateEmoji('dead')
   gGame.isOn = false
