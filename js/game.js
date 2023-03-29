@@ -108,7 +108,7 @@ function onCellClicked(event, elCell, i, j) {
 
   // 0 === left
   if (event.button === 0) {
-    handleLeftClick(elCell, i, j)
+    handleLeftClick(i, j)
   }
   //2 === right
   else if (event.button === 2) {
@@ -116,7 +116,7 @@ function onCellClicked(event, elCell, i, j) {
   }
 }
 
-function handleLeftClick(elCell, i, j) {
+function handleLeftClick(i, j) {
   if (gBoard[i][j].isMine) {
     if (gGame.lives > 0) {
       gGame.lives--
@@ -131,9 +131,7 @@ function handleLeftClick(elCell, i, j) {
       handleLoss()
     }
   } else {
-    elCell.innerHTML = gBoard[i][j].minesAroundCount
-    gBoard[i][j].isShown = true
-    gGame.shownCount++
+    revealCells(i, j)
     if (gGame.shownCount === gLevel.col * gLevel.row - gLevel.mines) {
       handleVictory()
     }
@@ -150,6 +148,27 @@ function handleRightClick(elCell, i, j) {
     gGame.markedCount++
   }
   renderMarkedCounter()
+}
+function revealCells(row, col) {
+  if (gBoard[row][col].isShown) return
+  revealCell(row, col)
+  if (gBoard[row][col].minesAroundCount > 0) {
+    return
+  } else if (gBoard[row][col].minesAroundCount === 0) {
+    for (var i = row - 1; i <= row + 1; i++) {
+      if (i < 0 || i > gBoard.length - 1) continue
+      for (var j = col - 1; j <= col + 1; j++) {
+        if (j < 0 || j > gBoard[i].length - 1 || (i === row && j === col)) continue
+        revealCells(i, j)
+      }
+    }
+  }
+}
+function revealCell(row, col) {
+  renderCell({ i: row, j: col }, gBoard[row][col].minesAroundCount)
+  gBoard[row][col].isShown = true
+  gGame.shownCount++
+  return
 }
 
 function handleLoss() {
