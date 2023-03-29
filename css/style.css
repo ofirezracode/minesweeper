@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #020617;
+  color: #f3f4f6;
+}
+h1 {
+  margin: 4.8rem;
+  text-align: center;
+  font-size: 4.8rem;
+}
+h2 {
+  position: relative;
+  display: none;
+  top: -20rem;
+  margin: 4.8rem;
+  text-align: center;
+  font-size: 8rem;
+  transition: all 1.5s;
+  opacity: 1;
+}
+.h2--on-victory {
+  opacity: 0;
+  top: -45rem;
+}
+.info {
+  margin: auto;
+  height: 8rem;
+  width: 32.6rem;
+  background-color: #111827;
+}
+.marked--overflow {
+  color: #dc2626;
+}
+table {
+  margin: auto;
+}
+.cell {
+  height: 8rem;
+  width: 8rem;
+  background-color: #111827;
+  text-align: center;
+  font-size: 1.6rem;
+  transition: all 0.15s;
+}
+.cell--board {
+  cursor: pointer;
+}
+.cell--board:hover {
+  background-color: #374151;
+}
+.cell--img {
+  height: 3.8rem;
+  width: 3.8rem;
+}
+.emoji {
+  cursor: pointer;
+}
