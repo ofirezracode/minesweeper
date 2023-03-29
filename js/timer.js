@@ -18,6 +18,7 @@ function updateTimer() {
 }
 
 function resetTimer() {
+  stopTimer()
   const elTimer = document.querySelector('.timer')
   elTimer.innerText = '000'
 }
