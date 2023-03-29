@@ -13,10 +13,10 @@ onInit()
 
 function onInit() {
   gGame = resetGame()
-  gBoard = buildBoard()
   resetEmoji()
   renderBoard()
   renderMarkedCounter()
+
   console.log('gBoard', gBoard)
   //reset everything
 }
@@ -27,13 +27,15 @@ function resetGame() {
     shownCount: 0,
     markedCount: 0,
     secsPassed: 0,
+    initializedBoard: false,
   }
 }
 
-function buildBoard() {
+function buildBoard(ignoreLocation) {
   const board = []
   const mat = createMat(gLevel.row, gLevel.col)
-  putStringAmountTimesInMat(mat, MINE, gLevel.mines)
+  placeMines(mat, ignoreLocation)
+  console.table(mat)
   for (var i = 0; i < gLevel.row; i++) {
     board.push([])
     for (var j = 0; j < gLevel.col; j++) {
@@ -41,6 +43,18 @@ function buildBoard() {
     }
   }
   return board
+}
+function placeMines(mat, ignoreLocation) {
+  if (gLevel.mines > mat.length * mat[0].length) return
+  for (var i = 0; i < gLevel.mines; i++) {
+    var row = getRandomInt(0, mat.length)
+    var col = getRandomInt(0, mat[0].length)
+    if (mat[row][col] === MINE || (row === ignoreLocation.i && col === ignoreLocation.j)) {
+      i--
+    } else {
+      mat[row][col] = MINE
+    }
+  }
 }
 function buildCell(mat, row, col) {
   const minesAroundCount = getAmountOfNeighboursContaining(mat, row, col, MINE)
@@ -56,9 +70,9 @@ function buildCell(mat, row, col) {
 function renderBoard() {
   const selector = '.game-container'
   var strHTML = '<table><tbody>'
-  for (var i = 0; i < gBoard.length; i++) {
+  for (var i = 0; i < gLevel.row; i++) {
     strHTML += '<tr>'
-    for (var j = 0; j < gBoard[0].length; j++) {
+    for (var j = 0; j < gLevel.col; j++) {
       const cell = ''
       const className = `cell cell--board cell-${i}-${j}`
 
@@ -84,6 +98,11 @@ function renderMarkedCounter() {
 
 function onCellClicked(event, elCell, i, j) {
   event.preventDefault()
+
+  if (!gGame.initializedBoard) {
+    gBoard = buildBoard({ i: i, j: j })
+    gGame.initializedBoard = true
+  }
 
   if (!gGame.isOn || gBoard[i][j].isShown) return
 

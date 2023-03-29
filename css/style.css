@@ -11,6 +11,9 @@ body {
   background-color: #020617;
   color: #f3f4f6;
 }
+main {
+  min-height: 80rem;
+}
 h1 {
   margin: 4.8rem;
   text-align: center;
@@ -62,4 +65,9 @@ table {
 }
 .emoji {
   cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  margin-top: auto;
 }
