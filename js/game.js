@@ -13,12 +13,10 @@ onInit()
 
 function onInit() {
   gGame = resetGame()
-  resetEmoji()
+  resetUI()
+  resetTimer()
   renderBoard()
   renderMarkedCounter()
-
-  console.log('gBoard', gBoard)
-  //reset everything
 }
 
 function resetGame() {
@@ -26,8 +24,10 @@ function resetGame() {
     isOn: true,
     shownCount: 0,
     markedCount: 0,
-    secsPassed: 0,
     initializedBoard: false,
+    cheats: false,
+    isClicksDisabled: false,
+    lives: 3,
   }
 }
 
@@ -35,7 +35,6 @@ function buildBoard(ignoreLocation) {
   const board = []
   const mat = createMat(gLevel.row, gLevel.col)
   placeMines(mat, ignoreLocation)
-  console.table(mat)
   for (var i = 0; i < gLevel.row; i++) {
     board.push([])
     for (var j = 0; j < gLevel.col; j++) {
@@ -69,7 +68,7 @@ function buildCell(mat, row, col) {
 
 function renderBoard() {
   const selector = '.game-container'
-  var strHTML = '<table><tbody>'
+  var strHTML = '<table class="board"><tbody>'
   for (var i = 0; i < gLevel.row; i++) {
     strHTML += '<tr>'
     for (var j = 0; j < gLevel.col; j++) {
@@ -102,9 +101,10 @@ function onCellClicked(event, elCell, i, j) {
   if (!gGame.initializedBoard) {
     gBoard = buildBoard({ i: i, j: j })
     gGame.initializedBoard = true
+    startTimer()
   }
 
-  if (!gGame.isOn || gBoard[i][j].isShown) return
+  if (!gGame.isOn || gGame.isClicksDisabled || gBoard[i][j].isShown) return
 
   // 0 === left
   if (event.button === 0) {
@@ -118,7 +118,18 @@ function onCellClicked(event, elCell, i, j) {
 
 function handleLeftClick(elCell, i, j) {
   if (gBoard[i][j].isMine) {
-    handleLoss()
+    if (gGame.lives > 0) {
+      gGame.lives--
+      gGame.isClicksDisabled = true
+      shakeScreen()
+      setTimeout(() => {
+        gGame.isClicksDisabled = false
+      }, 1010)
+      showHeartLoss()
+      hollowHeart(3 - gGame.lives - 1)
+    } else {
+      handleLoss()
+    }
   } else {
     elCell.innerHTML = gBoard[i][j].minesAroundCount
     gBoard[i][j].isShown = true
@@ -147,6 +158,7 @@ function handleLoss() {
   gGame.isOn = false
 }
 function handleVictory() {
+  stopTimer()
   setValueAllMines('flag')
   updateEmoji('sunglasses')
   gGame.isOn = false

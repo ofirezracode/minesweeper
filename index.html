@@ -25,16 +25,36 @@
               src="./assets/smile.png"
             />
           </td>
-          <td class="cell">000</td>
+          <td class="cell timer">000</td>
         </tr>
       </table>
-      <div class="game-container"></div>
-      <h2>Victory</h2>
-      <div class="cheats"></div>
+      <section class="game-container"></section>
+
+      <section class="cheats">
+        <table class="hearts">
+          <tr>
+            <td>
+              <img class="heart" src="./assets/heart-filled.png" />
+            </td>
+            <td>
+              <img class="heart" src="./assets/heart-filled.png" />
+            </td>
+            <td>
+              <img class="heart" src="./assets/heart-filled.png" />
+            </td>
+          </tr>
+        </table>
+      </section>
+      <h2 class="indicator">Victory</h2>
+      <div class="indicator indicator--heart">
+        <p>Life Lost</p>
+        <img class="heart" src="./assets/heart-filled.png" />
+      </div>
     </main>
     <footer>Ofir Ezra</footer>
     <script src="./js/util.js"></script>
     <script src="./js/UI.js"></script>
+    <script src="./js/timer.js"></script>
     <script src="./js/game.js"></script>
   </body>
 </html>
