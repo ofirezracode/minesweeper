@@ -6,23 +6,23 @@ function updateEmoji(state) {
   const elEmoji = document.querySelector('.emoji')
 
   if (state === 'happy') {
-    elEmoji.src = '../assets/happy.png'
+    elEmoji.src = 'assets/happy.png'
     emojiState = 'happy'
   } else if (state === 'smile') {
-    elEmoji.src = '../assets/smile.png'
+    elEmoji.src = 'assets/smile.png'
     emojiState = 'smile'
   } else if (state === 'dead') {
-    elEmoji.src = '../assets/dead.png'
+    elEmoji.src = 'assets/dead.png'
     emojiState = 'dead'
   } else if (state === 'sunglasses') {
-    elEmoji.src = '../assets/sunglasses.png'
+    elEmoji.src = 'assets/sunglasses.png'
     emojiState = 'sunglasses'
   }
 }
 
 function resetEmoji() {
   const elEmoji = document.querySelector('.emoji')
-  elEmoji.src = '../assets/smile.png'
+  elEmoji.src = 'assets/smile.png'
   emojiState = 'smile'
 }
 
