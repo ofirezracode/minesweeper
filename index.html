@@ -13,58 +13,78 @@
   <body>
     <main>
       <h1>Minesweeper</h1>
-      <section>
-        <table class="difficulty-table">
-          <tr>
-            <td onclick="changeDiff(this,4)" class="cell chosen-diff">Easy</td>
-            <td onclick="changeDiff(this,8)" class="cell">Medium</td>
-            <td onclick="changeDiff(this,12)" class="cell">hard</td>
-          </tr>
-        </table>
-      </section>
-      <section>
-        <table class="info-table info-table--easy">
-          <tr>
-            <td class="cell marked">2</td>
-            <td colspan="2" class="cell">
-              <img
-                onclick="onInit()"
-                onmouseenter="updateEmoji('happy')"
-                onmouseleave="updateEmoji('smile')"
-                class="emoji cell--img"
-                src="./assets/smile.png"
-              />
-            </td>
-            <td class="cell timer">000</td>
-          </tr>
-        </table>
-      </section>
-      <section class="game-container"></section>
-      <section class="cheats">
-        <table class="hearts hearts--easy">
-          <tr>
-            <td>
-              <img class="heart" src="./assets/heart-filled.png" />
-            </td>
-            <td>
-              <img class="heart" src="./assets/heart-filled.png" />
-            </td>
-            <td>
-              <img class="heart" src="./assets/heart-filled.png" />
-            </td>
-          </tr>
-        </table>
-      </section>
+      <table>
+        <tr>
+          <td>
+            <table class="difficulty-table">
+              <tr>
+                <td onclick="changeDiff(this,4)" class="cell pointer chosen-diff">Easy</td>
+                <td onclick="changeDiff(this,8)" class="cell pointer">Medium</td>
+                <td onclick="changeDiff(this,12)" class="cell pointer">hard</td>
+              </tr>
+            </table>
+            <table class="info-table info-table--easy">
+              <tr>
+                <td class="cell marked">2</td>
+                <td colspan="2" class="cell">
+                  <img
+                    onclick="onInit()"
+                    onmouseenter="updateEmoji('happy')"
+                    onmouseleave="updateEmoji('smile')"
+                    class="emoji pointer cell--img"
+                    src="./assets/smile.png"
+                  />
+                </td>
+                <td class="cell timer">000</td>
+              </tr>
+            </table>
+            <section class="game-container"></section>
+            <table class="hearts hearts--easy">
+              <tr>
+                <td>
+                  <img class="icon" src="./assets/heart-filled.png" />
+                </td>
+                <td>
+                  <img class="icon" src="./assets/heart-filled.png" />
+                </td>
+                <td>
+                  <img class="icon" src="./assets/heart-filled.png" />
+                </td>
+                <td onclick="toggleCheatsScreen()">
+                  <button class="pointer toggle-cheats-btn">Cheats <span class="arrow">&#8594;</span></button>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table class="cheats hide cheats--easy">
+              <tr>
+                <td class="cheats-row">Hint:</td>
+              </tr>
+              <tr class="cheats-row">
+                <td class="cheats-cell">
+                  <img onclick="onHintClick()" class="icon hint pointer" src="./assets/lightbulb-filled.png" />
+                </td>
+                <td class="cheats-cell"><img onclick="onHintClick()" class="icon hint pointer" src="./assets/lightbulb-filled.png" /></td>
+                <td class="cheats-cell"><img onclick="onHintClick()" class="icon hint pointer" src="./assets/lightbulb-filled.png" /></td>
+              </tr>
+              <tr></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
       <h2 class="indicator">Victory</h2>
       <div class="indicator indicator--heart">
         <p>Life Lost</p>
-        <img class="heart" src="./assets/heart-filled.png" />
+        <img class="icon" src="./assets/heart-filled.png" />
       </div>
     </main>
     <footer>Ofir Ezra</footer>
     <script src="./js/util.js"></script>
     <script src="./js/UI.js"></script>
     <script src="./js/timer.js"></script>
+    <script src="./js/cheats.js"></script>
     <script src="./js/game.js"></script>
   </body>
 </html>

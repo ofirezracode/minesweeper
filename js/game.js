@@ -17,6 +17,7 @@ function onInit() {
   resetTimer()
   renderBoard()
   renderMarkedCounter()
+  initCheats()
 }
 
 function changeDiff(elCell, size) {
@@ -87,7 +88,7 @@ function renderBoard() {
     strHTML += '<tr>'
     for (var j = 0; j < gLevel.col; j++) {
       const cell = ''
-      const className = `cell cell--board cell-${i}-${j}`
+      const className = `cell cell--board pointer cell-${i}-${j}`
 
       strHTML += `<td class="${className}" onclick="onCellClicked(event,this, ${i}, ${j})" oncontextmenu="onCellClicked(event,this, ${i}, ${j})">${cell}</td>`
     }
@@ -120,6 +121,7 @@ function onCellClicked(event, elCell, i, j) {
 
   if (!gGame.isOn || gGame.isClicksDisabled || gBoard[i][j].isShown) return
 
+  console.log('gBoard', gBoard)
   // 0 === left
   if (event.button === 0) {
     handleLeftClick(i, j)
@@ -131,7 +133,10 @@ function onCellClicked(event, elCell, i, j) {
 }
 
 function handleLeftClick(i, j) {
-  if (gBoard[i][j].isMine) {
+  if (gBoard[i][j].isShown) return
+  if (gIsHintClicked) {
+    hintRevealCells(i, j)
+  } else if (gBoard[i][j].isMine) {
     if (gGame.lives > 0) {
       gGame.lives--
       gGame.isClicksDisabled = true
@@ -163,6 +168,26 @@ function handleRightClick(elCell, i, j) {
   }
   renderMarkedCounter()
 }
+function hintRevealCells(row, col) {
+  gGame.isClicksDisabled = true
+  const cells = []
+  for (var i = row - 1; i <= row + 1; i++) {
+    if (i < 0 || i > gBoard.length - 1) continue
+    for (var j = col - 1; j <= col + 1; j++) {
+      if (j < 0 || j > gBoard[i].length - 1 || gBoard[i][j].isShown) continue
+      const location = { i: i, j: j }
+      const value = gBoard[i][j].isMine ? MINE_HTML : gBoard[i][j].minesAroundCount
+      cells.push(location)
+      renderCell(location, value)
+    }
+  }
+  setTimeout(() => {
+    hideCells(cells)
+    gGame.isClicksDisabled = false
+    onHintClick()
+    reduceActiveHints()
+  }, 1000)
+}
 function revealCells(row, col) {
   if (gBoard[row][col].isShown) return
   revealCell(row, col)
@@ -183,6 +208,12 @@ function revealCell(row, col) {
   gBoard[row][col].isShown = true
   gGame.shownCount++
   return
+}
+function hideCells(cells) {
+  console.log('cells', cells)
+  for (var i = 0; i < cells.length; i++) {
+    renderCell(cells[i], '')
+  }
 }
 
 function handleLoss() {

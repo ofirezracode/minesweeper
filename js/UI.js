@@ -1,4 +1,7 @@
+const LIGHTBULB_FILLED_PATH = './assets/lightbulb-filled.png'
+const LIGHTBULB_HOLLOWED_PATH = './assets/lightbulb-hollow.png'
 var emojiState = 'smile'
+var gIsCheatsScreenVisible = false
 
 function updateEmoji(state) {
   if (emojiState === 'dead' || emojiState === 'sunglasses') return
@@ -61,7 +64,7 @@ function showHeartLoss() {
 }
 
 function hollowHeart(i) {
-  const elHearts = document.querySelectorAll('.hearts .heart')
+  const elHearts = document.querySelectorAll('.hearts .icon')
   elHearts[i].src = './assets/heart-hollow.png'
 }
 
@@ -85,12 +88,44 @@ function changeTablesDiff(diff) {
   console.log(diff)
   const elInfoTable = document.querySelector('.info-table')
   elInfoTable.classList.remove('info-table--easy')
-  elInfoTable.classList.remove('info-table--')
+  elInfoTable.classList.remove('info-table--medium')
   elInfoTable.classList.remove('info-table--hard')
   elInfoTable.classList.add(`info-table--${diff}`)
   const elHeartsTable = document.querySelector('.hearts')
   elHeartsTable.classList.remove('hearts--easy')
-  elHeartsTable.classList.remove('hearts--')
+  elHeartsTable.classList.remove('hearts--medium')
   elHeartsTable.classList.remove('hearts--hard')
   elHeartsTable.classList.add(`hearts--${diff}`)
+  if (gIsCheatsScreenVisible) toggleCheatsScreen(true)
+}
+
+function toggleCheatsScreen() {
+  const elCheatsScreen = document.querySelector('.cheats')
+  if (gIsCheatsScreenVisible) {
+    elCheatsScreen.classList.remove('reveal-cheats')
+    setTimeout(() => {
+      elCheatsScreen.classList.toggle('hide')
+    }, 300)
+  } else {
+    elCheatsScreen.classList.toggle('hide')
+    console.log('here')
+    setTimeout(() => {
+      elCheatsScreen.classList.add('reveal-cheats')
+    }, 10)
+  }
+  gIsCheatsScreenVisible = !gIsCheatsScreenVisible
+}
+
+function lightLightbulbs(activeHints) {
+  const hints = document.querySelectorAll('.hint')
+  for (var i = 0; i < hints.length; i++) {
+    hints[i].classList.toggle('hint-clicked')
+    if (activeHints[i]) {
+      hints[i].classList.toggle('hint-clicked--background')
+    }
+  }
+}
+function hollowLightbulb(index) {
+  const hints = document.querySelectorAll('.hint')
+  hints[index].src = LIGHTBULB_HOLLOWED_PATH
 }
