@@ -72,3 +72,25 @@ function shakeScreen() {
     elMain.classList.remove('animate--shake')
   }, 1000)
 }
+
+function changeHighlightedDiff(elCell) {
+  const elDiffs = document.querySelectorAll('.difficulty-table .cell')
+  for (var i = 0; i < elDiffs.length; i++) {
+    elDiffs[i].classList.remove('chosen-diff')
+  }
+  elCell.classList.add('chosen-diff')
+}
+
+function changeTablesDiff(diff) {
+  console.log(diff)
+  const elInfoTable = document.querySelector('.info-table')
+  elInfoTable.classList.remove('info-table--easy')
+  elInfoTable.classList.remove('info-table--')
+  elInfoTable.classList.remove('info-table--hard')
+  elInfoTable.classList.add(`info-table--${diff}`)
+  const elHeartsTable = document.querySelector('.hearts')
+  elHeartsTable.classList.remove('hearts--easy')
+  elHeartsTable.classList.remove('hearts--')
+  elHeartsTable.classList.remove('hearts--hard')
+  elHeartsTable.classList.add(`hearts--${diff}`)
+}

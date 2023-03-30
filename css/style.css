@@ -16,7 +16,7 @@ body {
   --background-medium: #111827;
 }
 main {
-  min-height: 80rem;
+  margin-bottom: 20rem;
 }
 h1 {
   margin: 4.8rem;
@@ -89,12 +89,31 @@ h2 {
 /*******************************/
 /*Tables and Board*/
 /*******************************/
-.info {
+.board--easy {
+  width: 33rem;
+}
+.info-table {
   margin: auto;
   height: 8rem;
   width: 32.6rem;
   background-color: var(--background-medium);
 }
+.info-table--easy {
+  width: 32.6rem;
+}
+.info-table--medium {
+  width: 65.28rem;
+}
+.info-table--hard {
+  width: 98rem;
+}
+.difficulty-table {
+  width: 33rem;
+}
+.difficulty-table .cell {
+  cursor: pointer;
+}
+
 .marked--overflow {
   color: #dc2626;
 }
@@ -105,12 +124,15 @@ table {
 .cell {
   height: 8rem;
   width: 8rem;
-  background-color: var(--background-medium);
   text-align: center;
   font-size: 1.6rem;
   transition: all 0.15s;
 }
+.chosen-diff {
+  font-size: 2.4rem;
+}
 .cell--board {
+  background-color: var(--background-medium);
   cursor: pointer;
 }
 .cell--board:hover {
@@ -123,7 +145,6 @@ table {
 .emoji {
   cursor: pointer;
 }
-
 .hearts {
   width: 32.6rem;
   margin: auto;
@@ -131,7 +152,15 @@ table {
   background-color: var(--background-medium);
   text-align: center;
 }
-
+.hearts--easy {
+  width: 32.6rem;
+}
+.hearts--medium {
+  width: 65.28rem;
+}
+.hearts--hard {
+  width: 98rem;
+}
 .heart {
   width: 3.2rem;
 }
@@ -139,4 +168,5 @@ table {
 footer {
   text-align: center;
   margin-top: auto;
+  margin-bottom: 8rem;
 }

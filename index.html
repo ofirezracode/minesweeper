@@ -13,25 +13,35 @@
   <body>
     <main>
       <h1>Minesweeper</h1>
-      <table class="info">
-        <tr>
-          <td class="cell marked">2</td>
-          <td colspan="2" class="cell">
-            <img
-              onclick="onInit()"
-              onmouseenter="updateEmoji('happy')"
-              onmouseleave="updateEmoji('smile')"
-              class="emoji cell--img"
-              src="./assets/smile.png"
-            />
-          </td>
-          <td class="cell timer">000</td>
-        </tr>
-      </table>
+      <section>
+        <table class="difficulty-table">
+          <tr>
+            <td onclick="changeDiff(this,4)" class="cell chosen-diff">Easy</td>
+            <td onclick="changeDiff(this,8)" class="cell">Medium</td>
+            <td onclick="changeDiff(this,12)" class="cell">hard</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <table class="info-table info-table--easy">
+          <tr>
+            <td class="cell marked">2</td>
+            <td colspan="2" class="cell">
+              <img
+                onclick="onInit()"
+                onmouseenter="updateEmoji('happy')"
+                onmouseleave="updateEmoji('smile')"
+                class="emoji cell--img"
+                src="./assets/smile.png"
+              />
+            </td>
+            <td class="cell timer">000</td>
+          </tr>
+        </table>
+      </section>
       <section class="game-container"></section>
-
       <section class="cheats">
-        <table class="hearts">
+        <table class="hearts hearts--easy">
           <tr>
             <td>
               <img class="heart" src="./assets/heart-filled.png" />

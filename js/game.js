@@ -1,6 +1,6 @@
-const EASY_BOARD = { row: 4, col: 4, mines: 2 }
-const MEDIUM_BOARD = { row: 8, col: 8, mines: 14 }
-const HARD_BOARD = { row: 12, col: 12, mines: 32 }
+const EASY_BOARD = { row: 4, col: 4, mines: 2, diff: 'easy' }
+const MEDIUM_BOARD = { row: 8, col: 8, mines: 14, diff: 'medium' }
+const HARD_BOARD = { row: 12, col: 12, mines: 32, diff: 'hard' }
 const MINE = '*'
 const MINE_HTML = '<img class="cell--img" src="./assets/bomb.png" />'
 const FLAG_HTML = '<img class="cell--img" src="./assets/flag.png" />'
@@ -17,6 +17,20 @@ function onInit() {
   resetTimer()
   renderBoard()
   renderMarkedCounter()
+}
+
+function changeDiff(elCell, size) {
+  if (size === gLevel.row) return
+  if (size === 4) {
+    gLevel = EASY_BOARD
+  } else if (size === 8) {
+    gLevel = MEDIUM_BOARD
+  } else if (size === 12) {
+    gLevel = HARD_BOARD
+  }
+  changeHighlightedDiff(elCell)
+  changeTablesDiff(gLevel.diff)
+  onInit()
 }
 
 function resetGame() {
@@ -68,7 +82,7 @@ function buildCell(mat, row, col) {
 
 function renderBoard() {
   const selector = '.game-container'
-  var strHTML = '<table class="board"><tbody>'
+  var strHTML = `<table class="board--${gLevel.diff}"><tbody>`
   for (var i = 0; i < gLevel.row; i++) {
     strHTML += '<tr>'
     for (var j = 0; j < gLevel.col; j++) {
