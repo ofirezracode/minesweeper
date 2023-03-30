@@ -33,7 +33,9 @@ h1 {
 .vert-align--top {
   vertical-align: baseline;
 }
-
+h2 {
+  text-align: center;
+}
 /*******************************/
 /*Indicators and Animations*/
 /*******************************/
@@ -54,12 +56,12 @@ h1 {
   top: -15rem;
   opacity: 0;
 }
-h2 {
+.victory {
   top: -20rem;
   margin: 4.8rem;
   font-size: 8rem;
 }
-.h2--on-victory {
+.indicator-victory {
   opacity: 0;
   top: -45rem;
 }

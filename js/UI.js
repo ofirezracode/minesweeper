@@ -40,13 +40,13 @@ function _resetHearts() {
 }
 
 function showVictoryAnnouncement() {
-  const elVictory = document.querySelector('h2')
+  const elVictory = document.querySelector('.victory')
   elVictory.style.display = 'block'
   setTimeout(() => {
-    elVictory.classList.add('h2--on-victory')
+    elVictory.classList.add('indicator-victory')
     setTimeout(() => {
       elVictory.style = ''
-      elVictory.classList.remove('h2--on-victory')
+      elVictory.classList.remove('indicator-victory')
     }, 1500)
   }, 10)
 }
@@ -128,4 +128,9 @@ function lightLightbulbs(activeHints) {
 function hollowLightbulb(index) {
   const hints = document.querySelectorAll('.hint')
   hints[index].src = LIGHTBULB_HOLLOWED_PATH
+}
+
+function renderValue(selector, value) {
+  const element = document.querySelector(selector)
+  element.innerText = value
 }

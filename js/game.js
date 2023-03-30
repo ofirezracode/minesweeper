@@ -15,6 +15,7 @@ function onInit() {
   gGame = resetGame()
   resetUI()
   resetTimer()
+  setBestScore()
   renderBoard()
   renderMarkedCounter()
   initCheats()
@@ -40,6 +41,7 @@ function resetGame() {
     shownCount: 0,
     markedCount: 0,
     initializedBoard: false,
+    time: 0,
     cheats: false,
     isClicksDisabled: false,
     lives: 3,
@@ -116,7 +118,9 @@ function onCellClicked(event, elCell, i, j) {
   if (!gGame.initializedBoard) {
     gBoard = buildBoard({ i: i, j: j })
     gGame.initializedBoard = true
-    startTimer()
+    startTimer((time) => {
+      gGame.time = time
+    })
   }
 
   if (!gGame.isOn || gGame.isClicksDisabled || gBoard[i][j].isShown) return
@@ -228,8 +232,21 @@ function handleVictory() {
   updateEmoji('sunglasses')
   gGame.isOn = false
   showVictoryAnnouncement()
-}
 
+  const bestTime = localStorage.getItem(gLevel.diff)
+  if (!bestTime || bestTime > gGame.time) {
+    localStorage.setItem(gLevel.diff, gGame.time)
+    renderValue('.score', gGame.time)
+  }
+}
+function setBestScore() {
+  const bestTime = localStorage.getItem(gLevel.diff)
+  if (bestTime) {
+    renderValue('.score', bestTime)
+  } else {
+    renderValue('.score', '')
+  }
+}
 function setValueAllMines(value) {
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[i].length; j++) {

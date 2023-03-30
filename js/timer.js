@@ -1,9 +1,11 @@
 var gStartTime
 var gTimerInterval
+var gUpdateSecondsFunc
 
-function startTimer() {
+function startTimer(func) {
   gStartTime = Date.now()
   gTimerInterval = setInterval(updateTimer, 100)
+  gUpdateSecondsFunc = func
 }
 
 function stopTimer() {
@@ -15,6 +17,7 @@ function updateTimer() {
   const elapsedTime = Date.now() - gStartTime
   const seconds = Math.floor(elapsedTime / 1000)
   elTimer.innerText = `${seconds}`.padStart(3, '0')
+  if (gUpdateSecondsFunc) gUpdateSecondsFunc(seconds)
 }
 
 function resetTimer() {
