@@ -1,3 +1,9 @@
+const SMILEY_HAPPY = './assets/happy.png'
+const SMILEY_SMILE = './assets/smile.png'
+const SMILEY_DEAD = './assets/dead.png'
+const SMILEY_SUNGLASSES = './assets/sunglasses.png'
+const HEART_FILLED = './assets/heart-filled.png'
+const HEART_HOLLOW = './assets/heart-hollow.png'
 const LIGHTBULB_FILLED_PATH = './assets/lightbulb-filled.png'
 const LIGHTBULB_HOLLOWED_PATH = './assets/lightbulb-hollow.png'
 var emojiState = 'smile'
@@ -9,16 +15,16 @@ function updateEmoji(state) {
   const elEmoji = document.querySelector('.emoji')
 
   if (state === 'happy') {
-    elEmoji.src = './assets/happy.png'
+    elEmoji.src = SMILEY_HAPPY
     emojiState = 'happy'
   } else if (state === 'smile') {
-    elEmoji.src = './assets/smile.png'
+    elEmoji.src = SMILEY_SMILE
     emojiState = 'smile'
   } else if (state === 'dead') {
-    elEmoji.src = './assets/dead.png'
+    elEmoji.src = SMILEY_DEAD
     emojiState = 'dead'
   } else if (state === 'sunglasses') {
-    elEmoji.src = './assets/sunglasses.png'
+    elEmoji.src = SMILEY_SUNGLASSES
     emojiState = 'sunglasses'
   }
 }
@@ -30,13 +36,13 @@ function resetUI() {
 
 function _resetEmoji() {
   const elEmoji = document.querySelector('.emoji')
-  elEmoji.src = './assets/smile.png'
+  elEmoji.src = SMILEY_SMILE
   emojiState = 'smile'
 }
 
 function _resetHearts() {
-  const elHearts = document.querySelectorAll('.hearts .heart')
-  for (var i = 0; i < elHearts.length; i++) elHearts[i].src = './assets/heart-filled.png'
+  const elHearts = document.querySelectorAll('.hearts .icon')
+  for (var i = 0; i < elHearts.length; i++) elHearts[i].src = HEART_FILLED
 }
 
 function showVictoryAnnouncement() {
@@ -65,7 +71,7 @@ function showHeartLoss() {
 
 function hollowHeart(i) {
   const elHearts = document.querySelectorAll('.hearts .icon')
-  elHearts[i].src = './assets/heart-hollow.png'
+  elHearts[i].src = HEART_HOLLOW
 }
 
 function shakeScreen() {
