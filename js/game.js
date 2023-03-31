@@ -40,7 +40,6 @@ function resetGame() {
     isOn: true,
     shownCount: 0,
     markedCount: 0,
-    minesClicked: 0,
     initializedBoard: false,
     time: 0,
     cheats: false,
@@ -157,7 +156,6 @@ function handleLeftClick(i, j) {
       showHeartLoss()
       hollowHeart(3 - gGame.lives - 1)
       revealCell(i, j)
-      gGame.minesClicked++
     } else {
       handleLoss()
     }
