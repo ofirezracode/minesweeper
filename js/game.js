@@ -40,6 +40,7 @@ function resetGame() {
     isOn: true,
     shownCount: 0,
     markedCount: 0,
+    minesClicked: 0,
     initializedBoard: false,
     time: 0,
     cheats: false,
@@ -134,12 +135,17 @@ function onCellClicked(event, elCell, i, j) {
   else if (event.button === 2) {
     handleRightClick(elCell, i, j)
   }
+
+  if (gGame.shownCount === gLevel.col * gLevel.row) {
+    handleVictory()
+  }
 }
 
 function handleLeftClick(i, j) {
   if (gBoard[i][j].isShown) return
   if (gIsHintClicked) {
     hintRevealCells(i, j)
+    return
   } else if (gBoard[i][j].isMine) {
     if (gGame.lives > 0) {
       gGame.lives--
@@ -150,25 +156,28 @@ function handleLeftClick(i, j) {
       }, 1010)
       showHeartLoss()
       hollowHeart(3 - gGame.lives - 1)
+      revealCell(i, j)
+      gGame.minesClicked++
     } else {
       handleLoss()
     }
   } else {
     revealCells(i, j)
-    if (gGame.shownCount === gLevel.col * gLevel.row - gLevel.mines) {
-      handleVictory()
-    }
   }
 }
 function handleRightClick(elCell, i, j) {
   if (gBoard[i][j].isMarked) {
     elCell.innerHTML = ''
     gBoard[i][j].isMarked = false
+    gBoard[i][j].isShown = false
     gGame.markedCount--
+    gGame.shownCount--
   } else {
     elCell.innerHTML = FLAG_HTML
     gBoard[i][j].isMarked = true
+    gBoard[i][j].isShown = true
     gGame.markedCount++
+    gGame.shownCount++
   }
   renderMarkedCounter()
 }
@@ -208,7 +217,8 @@ function revealCells(row, col) {
   }
 }
 function revealCell(row, col) {
-  renderCell({ i: row, j: col }, gBoard[row][col].minesAroundCount)
+  const value = gBoard[row][col].isMine ? MINE_HTML : gBoard[row][col].minesAroundCount
+  renderCell({ i: row, j: col }, value)
   gBoard[row][col].isShown = true
   gGame.shownCount++
   return
