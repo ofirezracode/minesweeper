@@ -29,9 +29,11 @@ function updateEmoji(state) {
   }
 }
 
-function resetUI() {
+function resetUI(diff) {
   _resetEmoji()
   _resetHearts()
+  _setBestScore(diff)
+  _resetLightbulbs()
 }
 
 function _resetEmoji() {
@@ -43,6 +45,20 @@ function _resetEmoji() {
 function _resetHearts() {
   const elHearts = document.querySelectorAll('.hearts .icon')
   for (var i = 0; i < elHearts.length; i++) elHearts[i].src = HEART_FILLED
+}
+function _setBestScore(diff) {
+  const bestTime = localStorage.getItem(diff)
+  if (bestTime) {
+    renderValue('.score', bestTime)
+  } else {
+    renderValue('.score', '')
+  }
+}
+function _resetLightbulbs() {
+  const elHints = document.querySelectorAll('.hint')
+  for (var i = 0; i < elHints.length; i++) {
+    elHints[i].src = LIGHTBULB_FILLED_PATH
+  }
 }
 
 function showVictoryAnnouncement() {

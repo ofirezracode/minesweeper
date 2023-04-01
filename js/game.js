@@ -13,9 +13,8 @@ onInit()
 
 function onInit() {
   gGame = resetGame()
-  resetUI()
+  resetUI(gLevel.diff)
   resetTimer()
-  setBestScore()
   renderBoard()
   renderMarkedCounter()
   initCheats()
@@ -40,9 +39,8 @@ function resetGame() {
     isOn: true,
     shownCount: 0,
     markedCount: 0,
-    initializedBoard: false,
+    isBoardInitialized: false,
     time: 0,
-    cheats: false,
     isClicksDisabled: false,
     lives: 3,
   }
@@ -80,6 +78,7 @@ function buildCell(mat, row, col) {
     isShown: false,
     isMine: isMine,
     isMarked: false,
+    isSafeClick: false,
   }
 }
 
@@ -114,10 +113,11 @@ function renderMarkedCounter() {
 
 function onCellClicked(event, elCell, i, j) {
   event.preventDefault()
+  console.log('event,button', event.button)
 
-  if (!gGame.initializedBoard) {
+  if (!gGame.isBoardInitialized) {
     gBoard = buildBoard({ i: i, j: j })
-    gGame.initializedBoard = true
+    gGame.isBoardInitialized = true
     startTimer((time) => {
       gGame.time = time
     })
@@ -160,6 +160,11 @@ function handleLeftClick(i, j) {
       handleLoss()
     }
   } else {
+    if (gBoard[i][j].isSafeClick) {
+      gBoard[i][j].isSafeClick = false
+      const elCell = document.querySelector(`.cell-${i}-${j}`)
+      elCell.classList.remove('cell--board--marked-safe')
+    }
     revealCells(i, j)
   }
 }
@@ -178,6 +183,14 @@ function handleRightClick(elCell, i, j) {
     gGame.shownCount++
   }
   renderMarkedCounter()
+}
+function onHintClick() {
+  if (gGame.isClicksDisabled || !gGame.isOn) return
+  triggerHints()
+}
+function onSafeClick() {
+  if (gGame.isClicksDisabled || !gGame.isOn || !gGame.isBoardInitialized) return
+  markSafeClick(gBoard)
 }
 function hintRevealCells(row, col) {
   gGame.isClicksDisabled = true
@@ -222,7 +235,6 @@ function revealCell(row, col) {
   return
 }
 function hideCells(cells) {
-  console.log('cells', cells)
   for (var i = 0; i < cells.length; i++) {
     renderCell(cells[i], '')
   }
@@ -247,14 +259,7 @@ function handleVictory() {
     renderValue('.score', gGame.time)
   }
 }
-function setBestScore() {
-  const bestTime = localStorage.getItem(gLevel.diff)
-  if (bestTime) {
-    renderValue('.score', bestTime)
-  } else {
-    renderValue('.score', '')
-  }
-}
+
 function setValueAllMines(value) {
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[i].length; j++) {
@@ -270,22 +275,3 @@ function setValueAllMines(value) {
     }
   }
 }
-
-// function renderBoard() {
-//   const selector = '.game-container'
-//   var strHTML = '<table><tbody>'
-//   for (var i = 0; i < gBoard.length; i++) {
-//     strHTML += '<tr>'
-//     for (var j = 0; j < gBoard[0].length; j++) {
-//       const cell = gBoard[i][j].isMine ? MINE_HTML : gBoard[i][j].minesAroundCount
-//       const className = `cell cell-${i}-${j}`
-
-//       strHTML += `<td class="${className}">${cell}</td>`
-//     }
-//     strHTML += '</tr>'
-//   }
-//   strHTML += '</tbody></table>'
-
-//   const elContainer = document.querySelector(selector)
-//   elContainer.innerHTML = strHTML
-// }
